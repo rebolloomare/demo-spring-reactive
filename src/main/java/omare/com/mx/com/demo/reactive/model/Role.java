@@ -1,28 +1,19 @@
 package omare.com.mx.com.demo.reactive.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
+public class Role {
 
-    @NotNull
-    private String uuid;
+    @Id
+    private String id;
 
-    private String username;
-
-    private String password;
-
-    private Boolean status;
-
-    private List<Role> roles;
-
+    private String name;
 }

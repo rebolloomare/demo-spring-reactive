@@ -1,5 +1,6 @@
 package omare.com.mx.com.demo.reactive.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import omare.com.mx.com.demo.reactive.model.User;
@@ -24,6 +25,7 @@ import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.lin
 import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn;
 import static reactor.function.TupleUtils.function;
 
+@Tag(name = "user", description = "The User API")
 @RestController
 @AllArgsConstructor
 public class UserController {
@@ -36,7 +38,8 @@ public class UserController {
         return Mono.just(ResponseEntity
                         .ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(fx));
+                .body(fx))
+                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/users/{id}")
@@ -44,7 +47,8 @@ public class UserController {
         return userService.findById(id)
                 .map(u -> ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(u));
+                        .body(u))
+                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/users")
@@ -62,7 +66,7 @@ public class UserController {
                 );
     }
 
-    @PutMapping("/users")
+    @PutMapping("/users/{id}")
     public Mono<ResponseEntity<User>> update(@PathVariable("id") String id, @RequestBody User user){
 
         Mono<User> monoBody = Mono.just(user);
@@ -70,7 +74,7 @@ public class UserController {
 
         return monoDB.zipWith(monoBody, (uFromDB, uToUpdate) -> {
             uFromDB.setUuid(id);
-            uFromDB.setName(uToUpdate.getName());
+            uFromDB.setUsername(uToUpdate.getUsername());
             return  uFromDB;
         })
                 .flatMap(userService::update)
