@@ -17,7 +17,7 @@ public class User {
     @NotNull
     private String uuid;
 
-    private String username;
+    private String userName;
 
     private String password;
 

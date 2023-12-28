@@ -18,6 +18,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -38,9 +39,15 @@ class UserControllerTest {
 
     @Test
     void findAll() {
-        User user1 = new User("1", "Omare");
-        User user2 = new User("2", "rebollo");
-        User user3 = new User("3", "rebolloomare");
+        User user1 = new User();
+        user1.setUuid(UUID.randomUUID().toString());
+        user1.setUserName("rebolloomare");
+        User user2 = new User();
+        user2.setUuid(UUID.randomUUID().toString());
+        user2.setUserName("oomare");
+        User user3 = new User();
+        user3.setUuid(UUID.randomUUID().toString());
+        user3.setUserName("simiio");
 
         List<User> userList = Arrays.asList(user1, user2, user3);
 
@@ -57,7 +64,9 @@ class UserControllerTest {
 
     @Test
     void findById() {
-        User user = new User("1", "omare");
+        User user = new User();
+        user.setUuid(UUID.randomUUID().toString());
+        user.setUserName("omare");
 
         when(userRepository.findById("1")).thenReturn(Mono.just(user));
 
@@ -72,7 +81,9 @@ class UserControllerTest {
 
     @Test
     void save() {
-        User user = new User("1", "simio");
+        User user = new User();
+        user.setUuid(UUID.randomUUID().toString());
+        user.setUserName("simio");
         when(userRepository.save(any())).thenReturn(Mono.just(user));
 
         webTestClient.post()
@@ -89,7 +100,9 @@ class UserControllerTest {
 
     @Test
     void update() {
-        User user = new User("1", "rebolloomare");
+        User user = new User();
+        user.setUuid(UUID.randomUUID().toString());
+        user.setUserName("rebolloomare");
 
         when(userRepository.findById("1")).thenReturn(Mono.just(user));
         when(userRepository.save(any())).thenReturn(Mono.just(user));
@@ -107,7 +120,9 @@ class UserControllerTest {
 
     @Test
     void delete() {
-        User user = new User("2", "rebolloomare");
+        User user = new User();
+        user.setUuid(UUID.randomUUID().toString());
+        user.setUserName("rebollo");
 
         when(userRepository.findById("2")).thenReturn(Mono.just(user));
         when(userRepository.deleteById("2")).thenReturn(Mono.empty());

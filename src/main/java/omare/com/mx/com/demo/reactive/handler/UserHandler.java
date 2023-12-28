@@ -64,7 +64,7 @@ public class UserHandler {
 
         return userDB.zipWith(userRequest, (uFromDB, uToUpdate) -> {
             uFromDB.setUuid(id);
-            uFromDB.setName(uToUpdate.getName());
+            uFromDB.setUserName(uToUpdate.getUserName());
             return  uFromDB;
         })
                 .flatMap(requestValidator::validate)
