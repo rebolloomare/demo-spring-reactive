@@ -74,7 +74,7 @@ public class UserController {
 
         return monoDB.zipWith(monoBody, (uFromDB, uToUpdate) -> {
             uFromDB.setUuid(id);
-            uFromDB.setUsername(uToUpdate.getUsername());
+            uFromDB.setUserName(uToUpdate.getUserName());
             return  uFromDB;
         })
                 .flatMap(userService::update)
